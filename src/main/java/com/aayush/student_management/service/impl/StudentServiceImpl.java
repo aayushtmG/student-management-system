@@ -36,6 +36,7 @@ public class StudentServiceImpl implements StudentService {
        //getting the level
         Level level = levelRepository.findById(studentCreateDto.getLevelId()).orElseThrow(()-> new RuntimeException("Level not found with id: " + studentCreateDto.getLevelId()));
 
+
         Student student = new Student();
         student.setLevel(level);
         student.setName(studentCreateDto.getName());
