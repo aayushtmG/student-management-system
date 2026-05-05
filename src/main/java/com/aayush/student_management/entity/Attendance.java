@@ -26,7 +26,5 @@ public class Attendance {
    private LocalDate date;
    private String status;
 
-
-
 }
 

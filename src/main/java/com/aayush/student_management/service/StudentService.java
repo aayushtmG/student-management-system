@@ -8,5 +8,4 @@ import java.util.List;
 public interface StudentService {
     List<StudentCreateDto> getAllStudents();
     StudentResponseDto createStudent(StudentCreateDto studentDto);
-
 }
