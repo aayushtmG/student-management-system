@@ -1,12 +1,11 @@
 package com.aayush.student_management.controller;
 
+import com.aayush.student_management.dto.level.LevelRequestDto;
 import com.aayush.student_management.dto.level.LevelResponseDto;
 import com.aayush.student_management.service.LevelService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,6 +22,14 @@ public class LevelController {
     @GetMapping
     public ResponseEntity<List<LevelResponseDto>> getAllLevels(){
           return new ResponseEntity<>(levelService.getAllLevels(), HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<LevelResponseDto> createLevel(
+            @RequestBody LevelRequestDto levelData
+            ){
+        LevelResponseDto createdLevel = levelService.createLevel(levelData);
+        return  new ResponseEntity<>(createdLevel,HttpStatus.CREATED);
     }
 
 }

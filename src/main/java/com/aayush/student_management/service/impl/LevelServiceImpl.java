@@ -1,5 +1,6 @@
 package com.aayush.student_management.service.impl;
 
+import com.aayush.student_management.dto.level.LevelRequestDto;
 import com.aayush.student_management.dto.level.LevelResponseDto;
 import com.aayush.student_management.entity.Level;
 import com.aayush.student_management.repository.LevelRepository;
@@ -26,5 +27,12 @@ public class LevelServiceImpl implements LevelService {
         return levels.stream().map(level ->  modelMapper.map(level, LevelResponseDto.class)).toList();
     }
 
-
+    @Override
+    public LevelResponseDto createLevel(LevelRequestDto levelRequestDto){
+        Level level = new Level();
+        level.setName(levelRequestDto.getName());
+        level.setTime(levelRequestDto.getTime());
+        levelRepository.save(level);
+        return modelMapper.map(level, LevelResponseDto.class);
+    }
 }
