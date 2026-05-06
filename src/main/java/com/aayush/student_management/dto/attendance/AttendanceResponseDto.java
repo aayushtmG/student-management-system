@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class AttendanceResponseDto {
     private Long id;
     private String studentName;
-    private String level;
+    private String levelName;
     private LocalDate date;
     private String status;
 }
