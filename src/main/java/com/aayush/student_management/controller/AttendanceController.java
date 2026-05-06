@@ -33,4 +33,11 @@ public class AttendanceController {
         return new ResponseEntity<>(newAttendanceRecord,HttpStatus.CREATED);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAttendance(
+           @PathVariable Long id
+    ){
+        attendanceService.deleteAttendanceById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

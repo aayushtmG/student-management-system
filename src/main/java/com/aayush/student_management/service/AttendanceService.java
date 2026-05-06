@@ -10,4 +10,5 @@ import java.util.List;
 public interface AttendanceService {
    List<AttendanceResponseDto> getAllAttendance();
    AttendanceResponseDto createAttendance(AttendanceRequestDto attendanceRequestDto);
+   void deleteAttendanceById(Long id);
 }

@@ -12,18 +12,18 @@ import java.time.LocalDate;
 public class Attendance {
 
    @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    private Long id;
+   @GeneratedValue(strategy =  GenerationType.IDENTITY)
+   private Long id;
 
-  @ManyToOne
-  @JoinColumn(name = "student_id")
+   @ManyToOne
+   @JoinColumn(name = "student_id")
    private Student student;
 
-  @ManyToOne
+    @ManyToOne
     @JoinColumn(name = "level_id")
     private Level level;
 
-   private LocalDate date;
+   private LocalDate date = LocalDate.now();
    private String status;
 
 }
