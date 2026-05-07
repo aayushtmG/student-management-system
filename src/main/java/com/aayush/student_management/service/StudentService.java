@@ -6,6 +6,7 @@ import com.aayush.student_management.dto.student.StudentResponseDto;
 import java.util.List;
 
 public interface StudentService {
-    List<StudentCreateDto> getAllStudents();
+    List<StudentResponseDto> getAllStudents(Long levelId);
     StudentResponseDto createStudent(StudentCreateDto studentDto);
+    StudentResponseDto getStudentById(Long id);
 }

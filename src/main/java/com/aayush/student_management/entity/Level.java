@@ -21,4 +21,10 @@ public class Level {
     @OneToMany(mappedBy = "level")
     private List<Student> students;
 
+    @PreRemove
+    private void preRemove(){
+        for( Student s : students){
+            s.setLevel(null);
+        }
+    }
 }

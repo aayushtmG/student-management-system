@@ -4,12 +4,14 @@ import com.aayush.student_management.dto.student.StudentResponseDto;
 import com.aayush.student_management.entity.Level;
 import com.aayush.student_management.entity.Student;
 import com.aayush.student_management.dto.student.StudentCreateDto;
+import com.aayush.student_management.exception.ResourceNotFoundException;
 import com.aayush.student_management.repository.LevelRepository;
 import com.aayush.student_management.repository.StudentRepository;
 import com.aayush.student_management.service.StudentService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -23,9 +25,15 @@ public class StudentServiceImpl implements StudentService {
     private final ModelMapper modelMapper;
 
     @Override
-    public List<StudentCreateDto> getAllStudents(){
+    public List<StudentResponseDto> getAllStudents(Long levelId){
        List<Student> students =  studentRepository.findAll();
-     return students.stream().map(student -> modelMapper.map(student, StudentCreateDto.class)).toList();
+       if(levelId != null){
+           Level selectedLevel = levelRepository.findById(levelId).orElseThrow(()-> new ResourceNotFoundException("Level not found!"));
+           students = students.stream().filter(student ->
+                student.getLevel() != null && student.getLevel().equals(selectedLevel)
+           ).toList();
+       }
+     return students.stream().map(student -> modelMapper.map(student, StudentResponseDto.class)).toList();
     }
 
 
@@ -41,6 +49,14 @@ public class StudentServiceImpl implements StudentService {
         student.setName(studentCreateDto.getName());
         studentRepository.save(student);
         return modelMapper.map(student, StudentResponseDto.class);
+    }
+
+    @Override
+    public StudentResponseDto getStudentById(
+           Long id
+    ){
+    Student student =   studentRepository.findById(id).orElseThrow(()-> new  ResourceNotFoundException("Student with id: " + id + " not found!"));
+    return modelMapper.map(student, StudentResponseDto.class);
     }
 
 

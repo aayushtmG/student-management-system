@@ -2,7 +2,9 @@ package com.aayush.student_management.service.impl;
 
 import com.aayush.student_management.dto.level.LevelRequestDto;
 import com.aayush.student_management.dto.level.LevelResponseDto;
+import com.aayush.student_management.dto.level.LevelUpdateDto;
 import com.aayush.student_management.entity.Level;
+import com.aayush.student_management.exception.ResourceNotFoundException;
 import com.aayush.student_management.repository.LevelRepository;
 import com.aayush.student_management.service.LevelService;
 import org.modelmapper.ModelMapper;
@@ -34,5 +36,23 @@ public class LevelServiceImpl implements LevelService {
         level.setTime(levelRequestDto.getTime());
         levelRepository.save(level);
         return modelMapper.map(level, LevelResponseDto.class);
+    }
+
+    @Override
+    public void deleteLevelById(Long levelId) {
+       Level level = levelRepository.findById(levelId).orElseThrow(()-> new ResourceNotFoundException("Level with id: " + levelId + " not found"));
+       levelRepository.deleteById(levelId);
+    }
+
+    @Override
+    public LevelResponseDto updateById(
+            Long levelId,
+            LevelUpdateDto levelUpdateDto) {
+        Level level = levelRepository.findById(levelId).orElseThrow(()-> new ResourceNotFoundException("Level with id: " + levelId + " not found"));
+
+        modelMapper.map(levelUpdateDto, level);
+
+        levelRepository.save(level);
+       return modelMapper.map(level, LevelResponseDto.class);
     }
 }

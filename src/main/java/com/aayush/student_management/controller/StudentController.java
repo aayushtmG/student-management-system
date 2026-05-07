@@ -19,8 +19,10 @@ public class StudentController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<StudentCreateDto>> getAllStudents(){
-        return ResponseEntity.ok(studentService.getAllStudents());
+    public ResponseEntity<List<StudentResponseDto>> getAllStudents(
+            @RequestParam(required = false ) Long levelId
+    ){
+        return ResponseEntity.ok(studentService.getAllStudents(levelId));
     }
 
     @PostMapping
@@ -31,5 +33,10 @@ public class StudentController {
         return new ResponseEntity<>(createdStudent, HttpStatus.CREATED);
     }
 
-
+    @GetMapping("/{id}")
+    public ResponseEntity<StudentResponseDto> getStudentById(
+            @PathVariable Long id
+    ){
+    return new ResponseEntity<>(studentService.getStudentById(id),HttpStatus.OK);
+    }
 }
