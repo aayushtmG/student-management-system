@@ -2,9 +2,11 @@ package com.aayush.student_management.service.impl;
 
 import com.aayush.student_management.dto.attendance.AttendanceRequestDto;
 import com.aayush.student_management.dto.attendance.AttendanceResponseDto;
+import com.aayush.student_management.dto.attendance.AttendanceStatusUpdateDto;
 import com.aayush.student_management.entity.Attendance;
 import com.aayush.student_management.entity.Level;
 import com.aayush.student_management.entity.Student;
+import com.aayush.student_management.exception.RequiredFieldsNotFound;
 import com.aayush.student_management.exception.ResourceNotFoundException;
 import com.aayush.student_management.repository.AttendanceRepository;
 import com.aayush.student_management.repository.LevelRepository;
@@ -60,4 +62,24 @@ public class AttendanceServiceImpl implements AttendanceService {
         attendanceRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Id doesn't exists"));
         attendanceRepository.deleteById(id);
     }
+
+    public AttendanceResponseDto updateAttendanceById(Long id, AttendanceStatusUpdateDto newStatusDto){
+        if(newStatusDto.getNewStatus() == null){
+            throw new RequiredFieldsNotFound("Required fields & values are not provided : \"status\" should be provided");
+        }
+        if( newStatusDto.getNewStatus().isBlank()){
+            throw new RequiredFieldsNotFound("Field \"status\" cannot be empty!");
+        }
+
+        String newStatus =  newStatusDto.getNewStatus();
+        if(!newStatus.equalsIgnoreCase("present") && !newStatus.equalsIgnoreCase("absent")) {
+            throw new IllegalArgumentException("Status should be only 'present' or 'absent'.");
+        }
+
+       Attendance attendance = attendanceRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Id doesn't exists"));
+       attendance.setStatus(newStatus);
+       attendanceRepository.save(attendance);
+       return modelMapper.map(attendance, AttendanceResponseDto.class);
+    }
+
 }

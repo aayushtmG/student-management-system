@@ -26,5 +26,10 @@ public class Attendance {
    private LocalDate date = LocalDate.now();
    private String status;
 
+   public void setStatus(String status) {
+       //by default absent
+       this.status = (status != null) ? status.toUpperCase() : "ABSENT";
+   }
+
 }
 

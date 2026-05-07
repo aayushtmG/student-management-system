@@ -2,6 +2,7 @@ package com.aayush.student_management.service;
 
 import com.aayush.student_management.dto.attendance.AttendanceRequestDto;
 import com.aayush.student_management.dto.attendance.AttendanceResponseDto;
+import com.aayush.student_management.dto.attendance.AttendanceStatusUpdateDto;
 import com.aayush.student_management.entity.Attendance;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,4 +12,5 @@ public interface AttendanceService {
    List<AttendanceResponseDto> getAllAttendance();
    AttendanceResponseDto createAttendance(AttendanceRequestDto attendanceRequestDto);
    void deleteAttendanceById(Long id);
+   AttendanceResponseDto updateAttendanceById(Long id, AttendanceStatusUpdateDto newStatusDto);
 }

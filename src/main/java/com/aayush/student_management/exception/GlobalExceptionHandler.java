@@ -18,4 +18,12 @@ public class GlobalExceptionHandler {
         response.put("message",ex.getMessage());
        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(RequiredFieldsNotFound.class)
+    public ResponseEntity<Map<String,String>> invalidFieldValues(RequiredFieldsNotFound exception){
+        Map<String,String> response = new HashMap<>();
+        response.put("status","fail");
+        response.put("message",exception.getMessage());
+        return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+    }
 }
