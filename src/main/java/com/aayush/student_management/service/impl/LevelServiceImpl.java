@@ -51,7 +51,6 @@ public class LevelServiceImpl implements LevelService {
         Level level = levelRepository.findById(levelId).orElseThrow(()-> new ResourceNotFoundException("Level with id: " + levelId + " not found"));
 
         modelMapper.map(levelUpdateDto, level);
-
         levelRepository.save(level);
        return modelMapper.map(level, LevelResponseDto.class);
     }

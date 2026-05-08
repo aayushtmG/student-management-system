@@ -11,6 +11,7 @@ import com.aayush.student_management.service.StudentService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -59,5 +60,25 @@ public class StudentServiceImpl implements StudentService {
     return modelMapper.map(student, StudentResponseDto.class);
     }
 
+    @Override
+    public StudentResponseDto updateStudentById(Long id, StudentCreateDto newStudentDto){
+        Student student =   studentRepository.findById(id).orElseThrow(()-> new  ResourceNotFoundException("Student with id: " + id + " not found!"));
+
+        if(newStudentDto.getName() != null){
+            student.setName(newStudentDto.getName());
+        }
+        if(newStudentDto.getLevelId() != null){
+            Level level = levelRepository.findById(newStudentDto.getLevelId()).orElseThrow(()-> new  ResourceNotFoundException("Level with id: " + newStudentDto.getLevelId() + " not found!"));
+            student.setLevel(level);
+        }
+
+        studentRepository.save(student);
+        return modelMapper.map(student,StudentResponseDto.class);
+    }
+
+    @Override
+    public void deleteStudentById(Long id){
+        studentRepository.deleteById(id);
+    }
 
 }

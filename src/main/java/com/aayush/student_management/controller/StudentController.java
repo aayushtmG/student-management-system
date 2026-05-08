@@ -39,4 +39,20 @@ public class StudentController {
     ){
     return new ResponseEntity<>(studentService.getStudentById(id),HttpStatus.OK);
     }
+
+   @PatchMapping("/{id}")
+    public ResponseEntity<StudentResponseDto> updateStudentById(
+            @PathVariable Long id,
+            @RequestBody StudentCreateDto newStudentData
+   ){
+        return new ResponseEntity<>(studentService.updateStudentById(id,newStudentData),HttpStatus.OK);
+   }
+
+   @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteStudentById(
+            @PathVariable Long id
+   ){
+         studentService.deleteStudentById(id);
+         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+   }
 }
